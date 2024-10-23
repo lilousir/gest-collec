@@ -1,0 +1,69 @@
+{
+  "accueil": {
+    "title": "Tableau de Bord",
+    "url": "/admin/dashboard",
+    "icon": "<i class=\"nav-icon fa-solid fa-house\"></i>",
+    "class": "main-menu-accueil"
+  },
+  "items": {
+    "title" : "Objets",
+    "url" : "/admin/item",
+    "icon": "<i class=\"nav-icon fa-solid fa-boxes-stacked\"></i>",
+    "subs" : {
+      "item": {
+        "title" : "Objets",
+        "url" : "/admin/item",
+        "icon": "<i class=\"nav-icon fa-solid fa-box-open\"></i>"
+      },
+      "type" : {
+        "title" : "Types",
+        "url" : "/admin/item/type",
+        "icon": "<i class=\"nav-icon fa-solid fa-tag\"></i>"
+      },
+      "brand" : {
+        "title" : "Marques",
+        "url" : "/admin/item/brand",
+        "icon" : "<i class=\"nav-icon fa-solid fa-tag\"></i>"
+      },
+      "genre" : {
+        "title" : "Genres",
+        "url" : "/admin/item/genre",
+        "icon" : "<i class=\"nav-icon fa-solid fa-tag\"></i>"
+      },
+      "license" : {
+        "title" : "Licences",
+        "url" : "/admin/item/license",
+        "icon" : "<i class=\"nav-icon fa-solid fa-tag\"></i>"
+      },
+      "commentaire" : {
+        "title" : "Commantaires",
+        "url" : "/admin/item/comment",
+        "icon" : "<i class=\"nav-icon fa-solid fa-comment\"></i>"
+      }
+    }
+  },
+  "media": {
+    "title": "Medias",
+    "url": "/admin/media",
+    "icon": "<i class=\"nav-icon fa-solid fa-image\"></i>"
+  },
+  "administration": {
+    "title": "Administration",
+    "url": "/",
+    "require": "administrateur",
+    "icon": "<i class=\"nav-icon fas fa-gear\"></i>",
+    "class": "",
+    "subs": {
+      "user": {
+        "title": "Utilisateur",
+        "url": "/admin/user",
+        "icon": "<i class=\"nav-icon fas fa-users-gear\"></i>"
+      },
+      "user-permission": {
+        "title": "Rôle",
+        "url": "/admin/userpermission",
+        "icon": "<i class=\"nav-icon fas fa-user-gear\"></i>"
+      }
+    }
+  }
+}
