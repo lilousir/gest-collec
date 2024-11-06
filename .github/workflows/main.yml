@@ -78,7 +78,7 @@ jobs:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        serve-dir: ${{ secrets.URL_PREFIX }}
+        serve-dir: ${{ secrets.URL_PREFIX }}/
         
     - name: Wait for files to deploy
       run: sleep 60
