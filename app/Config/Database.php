@@ -53,8 +53,8 @@ class Database extends Config
     public array $production  = [
         'DSN'          => '',
         'hostname'     => 'localhost',
-        'username'     => 'vipa0880slilou',
-        'password'     => 'pxG&}0[?$9L',
+        'username'     => 'vipa0880_slilou',
+        'password'     => 'pxG&}0_[?$9L',
         'database'     => 'vipa0880_gestcollec_lilou',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
