@@ -54,7 +54,7 @@ class Database extends Config
         'DSN'          => '',
         'hostname'     => 'localhost',
         'username'     => 'vipa0880slilou',
-        'password'     => 'dQ-{F&,39+3?',
+        'password'     => 'pxG&}0[?$9L',
         'database'     => 'vipa0880_gestcollec_lilou',
         'DBDriver'     => 'MySQLi',
         'DBPrefix'     => '',
