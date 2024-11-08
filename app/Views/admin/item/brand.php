@@ -9,7 +9,7 @@
 </div>
 <div class="row">
     <div class="col-md-4">
-        <form action="/admin/item/createbrand" method="POST">
+        <form action="<?= base_url('/admin/item/createbrand'); ?>" method="POST">
             <div class="card">
                 <div class="card-header">
                     <h5>Ajouter une marque</h5>
@@ -19,7 +19,7 @@
                     <input type="text" class="form-control" name="name">
                     <label class="form-label">Marque parente</label>
                     <select class="form-select" name="id_brand_parent">
-                        <option value="" selected>Aucun</option>
+                        <option value="none" selected>Aucun</option>
                         <?php foreach ($all_brands as $brand) { ?>
                             <option value="<?= $brand['id']; ?>">
                                 <?= $brand['name']; ?>
@@ -75,7 +75,7 @@
                     <input type="text" name="name" class="form-control">
                     <label class="form-label">Marque parente</label>
                     <select class="form-select" name="id_brand_parent">
-                        <option value="" selected>Aucun</option>
+                        <option value="none" selected>Aucun</option>
                         <?php foreach ($all_brands as $brand) { ?>
                             <option value="<?= $brand['id']; ?>">
                                 <?= $brand['name']; ?>
@@ -94,16 +94,17 @@
 <script>
     $(document).ready(function () {
         const modalBrand = new bootstrap.Modal('#modalBrand');
+        var baseUrl = "<?= base_url(); ?>";
         var dataTable = $('#tableBrands').DataTable({
             "responsive": true,
             "pageLength": 10,
             "processing": true,
             "serverSide": true,
             "language": {
-                url: '<?= base_url("/js/datatable/datatable-2.1.4-fr-FR.json") ?>',
+                url: baseUrl +'js/datatable/datatable-2.1.4-fr-FR.json',
             },
             "ajax" : {
-                "url" : "<?= base_url('/admin/item/searchdatatable'); ?>",
+                "url" : baseUrl +"admin/item/searchdatatable",
                 "type" : "POST",
                 "data" : { 'model' : 'ItemBrandModel'}
 
@@ -136,14 +137,14 @@
                     data : 'id',
                     sortable : false,
                     render : function(data) {
-                        return `<a class="swal2-brand-update" id="${data}" href="<?= base_url('/admin/item/updatebrand/');?>${data}"><i class="fa-solid fa-pencil text-success"></i></a>`;
+                        return `<a class="swal2-brand-update" id="${data}" href="${baseUrl}admin/item/updatebrand/${data}"><i class="fa-solid fa-pencil text-success"></i></a>`;
                     }
                 },
                 {
                     data : 'id',
                     sortable : false,
                     render : function(data) {
-                        return `<a class="swal2-brand" id="${data}" href="<?= base_url('/admin/item/deletebrand/');?>${data}"><i class="fa-solid fa-trash text-danger"></i></a>`;
+                        return `<a class="swal2-brand" id="${data}" href="${baseUrl}admin/item/deletebrand/${data}"><i class="fa-solid fa-trash text-danger"></i></a>`;
                     }
                 }
             ]
@@ -159,7 +160,7 @@
             } else {
                 $.ajax({
                     type: "GET",
-                    url: "<?= base_url('/admin/item/totalitembybrand'); ?>",
+                    url: baseUrl + "admin/item/totalitembybrand",
                     data: {
                         id: id,
                     },
@@ -181,6 +182,9 @@
             let id_brand_parent = $(this).closest('tr').find(".id-brand-parent").html();
             $('.modal input[name="id"]').val(id_brand);
             $('.modal input[name="name"]').val(name);
+            if (id_brand_parent == "") {
+                id_brand_parent = "none";
+            }
             $('.modal select[name="id_brand_parent"]').val(id_brand_parent);
         });
         $("#formModal").on('submit', function(event) {
@@ -197,6 +201,7 @@
                     id_brand_parent : id_brand_parent,
                 },
                 success: function (data) {
+                    console.log(data);
                     //je transforme mon contenu pour l'utiliser en javascript
                     var json = JSON.parse(data);
                     //déclaration de ma ligne pour l'utiliser plusieurs fois

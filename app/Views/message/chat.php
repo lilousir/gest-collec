@@ -23,9 +23,7 @@
                 Messages
             </div>
             <div class="card-body overflow-auto position-relative" id="m-area" style="height: 50vh">
-               <div class="position-absolute bottom-0 start-50 translate-middle alert alert-light mb-0 p-2 z-3" style="front-size: 0.6em;">
-                   <i class="fa-solid fa-arrow-down"></i>nouveaux message<i class="fa-solid fa-arrow-down"></i>
-               </div>
+
             </div>
             <div class="card-footer p-3">
                 <textarea rows="4" id="message" class="form-control"></textarea>
@@ -39,9 +37,9 @@
         let id_receiver =  $('#receiver').val();
         let id_sender =  <?= $user->id; ?>;
         let baseUrl = "<?= base_url(); ?>";
-        let lastMessage
+        let lastMessageTimestamp;
         getMessageHistory();
-        setInterval(getMessageHistory,5000);
+        setInterval(getNewMessage,5000);
 
         /* Au changement d'interlocuteur */
         $('#receiver').change(function(){
@@ -86,7 +84,7 @@
                     'id_sender': id_sender,
                 },
                 success : function(data) {
-                    console.log(data);
+                    //console.log(data);
                     $('#m-area').html('');
                     if (data.length > 0) {
                         data.forEach(function(message) {
@@ -96,6 +94,7 @@
                                 $('#m-area').prepend(receiverMessage(message));
                             }
                         });
+                        lastMessageTimestamp = data[0].created_at;
                         scrollToBottom();
                     } else {
                         $('#m-area').append('<div class="row"><div class="col">Pas de message avec cette personne</div></div>');
@@ -104,6 +103,34 @@
             });
         }
 
+        /* Récupère les derniers messages */
+        function getNewMessage(){
+            $.ajax({
+                url: baseUrl + 'chat/ajaxlastmessagehistory',
+                type : 'GET',
+                data : {
+                    'id_receiver': id_receiver,
+                    'id_sender': id_sender,
+                    'limit' : 5,
+                    'offset' : 0,
+                    'timestamp' : lastMessageTimestamp
+                },
+                success : function(data) {
+                    if (data.length > 0) {
+                        data.forEach(function(message) {
+                            if (message.id_sender != id_sender) {
+                                $('#m-area').append(receiverMessage(message));
+                            }
+                            $('#m-area').append(`<div class="position-absolute bottom-0 start-50 translate-middle alert alert-light mb-0 p-2 z-3" style="font-size: 0.6em;">
+                                <i class="fa-regular fa-circle-down"></i> Nouveau(x) Message(s) <i class="fa-regular fa-circle-down"></i>
+                            </div>`);
+                        });
+                        lastMessageTimestamp = data[0].created_at;
+                    }
+                    console.log(data);
+                }
+            });
+        }
         /* Message pour le receiver */
         function receiverMessage(message){
             let html = `

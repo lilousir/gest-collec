@@ -1,4 +1,5 @@
-<form action="/admin/item/<?= isset($item['id']) ?'updateitem' : 'createitem' ?>" method="POST" enctype="multipart/form-data">
+<form action="<?= base_url('/admin/item/'); ?><?= isset($item['id']) ?'updateitem' : 'createitem' ?>" method="POST"
+      enctype="multipart/form-data">
     <?php if (isset($item['id'])): ?>
         <input type="hidden" name="id" value="<?= htmlspecialchars($item['id']) ?>">
     <?php endif; ?>
@@ -44,14 +45,14 @@
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <button class="nav-link" id="genre-tab" data-bs-toggle="tab" data-bs-target="#genre-pane" type="button" role="tab" aria-controls="genre" aria-selected="false">Genre</button>
-                                </li
+                                </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="comment-tab" data-bs-toggle="tab" data-bs-target="#comment-pane" type="button" role="tab" aria-controls="comment" aria-selected="false">Commantaire</button>
+                                    <button class="nav-link" id="comments-tab" data-bs-toggle="tab" data-bs-target="#comments-pane" type="button" role="tab" aria-controls="comments" aria-selected="false">Commentaires</button>
                                 </li>
                             </ul>
 
                             <!-- Tab panes -->
-                            <div class="tab-content p-3">
+                            <div class="tab-content border p-3">
                                 <div class="tab-pane fade show active" id="general-pane" role="tabpanel" aria-labelledby="general-tab" tabindex="0">
                                     <div class="row">
                                         <div class="col">
@@ -131,36 +132,23 @@
                                         <?php }
                                         ?>
                                     </div>
-
-                                 </div>
-                                <div class="tab-pane fade show active" id="comment-pane" role="tabpanel" aria-labelledby="comment-tab" tabindex="0">
-                                    <div class="row">
-                                        <div class="col">
-                                            <div class="row">
-                                                <div class="col p-3">
-                                                    <?php foreach($comments as $comment) : ?>
-                                                        <div class="card mb-3 comment" data-id="<?= $comment['id']; ?>">
-                                                            <div class="card-header d-flex justify-content-between">
-
-                                                                <div>
-                                                                    <small class="text-body-secondary">Le
-                                                                        <?php
-                                                                        $date = new DateTime($comment['date']);
-                                                                        echo $date->format('d/m/Y H:i:s'); ?></small>
-                                                                </div>
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <?= $comment['content']; ?>
-                                                            </div>
-                                                        </div>
-                                                    <?php endforeach; ?>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="comments-pane" role="tabpanel" aria-labelledby="comments-tab" tabindex="0">
+                                    <table class="table table-sm table-hover table-auto w-100" id="tableComments">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Reponse</th>
+                                            <th>Commentaire</th>
+                                            <th>Nom de l'utilisateur</th>
+                                            <th>Date</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -301,6 +289,7 @@ function hasSelectedChild($node, $selectedId) {
 ?>
 <script>
     $(document).ready(function () {
+        var baseUrl = "<?= base_url(); ?>";
         document.getElementById('search-genre').addEventListener('input', function() {
             var searchValue = this.value.toLowerCase();
             var genreItems = document.querySelectorAll('.genre-item');
@@ -338,7 +327,7 @@ function hasSelectedChild($node, $selectedId) {
         $('.medias').on('click','.media-delete', function(e){
             let media = $(this).closest('.media');
             let id = media.data("id");
-            let url = "<?= base_url('/admin/media/delete/') ?>";
+            let url = baseUrl + "admin/media/delete/";
             url = url + id;
             Swal.fire({
                 title: "Êtes-vous sûr?",
@@ -411,6 +400,38 @@ function hasSelectedChild($node, $selectedId) {
                 old_default.find('.badge.bg-warning').addClass('d-none');
             }
         });
-
+        dataTable = $('#tableComments').DataTable({
+            "responsive": true,
+            "processing": true,
+            "serverSide": true,
+            "pageLength": 10,
+            "autoWidth": false,
+            "language": {
+                url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json',
+            },
+            "ajax": {
+                "url": baseUrl + "admin/comment/searchdatatable",
+                "type": "POST",
+                "data": { 'filter': 'item', 'filter_value': '<?= isset($item['id']) ?? $item['id']; ?>' }
+            },
+            "columns": [
+                {"data": "id"},
+                {"data": "id_comment_parent"},
+                {"data": "content"},
+                {
+                    data : 'id_user',
+                    sortable : false,
+                    render : function(data, type, row) {
+                        return `<a class="link-underline link-underline-opacity-0" href="${baseUrl}admin/user/${row.id}">${row.username}</a>`;
+                    }
+                },
+                {
+                    "data": "created_at",
+                    "render": function (data, type, row) {
+                        return new Date(data).toLocaleString('fr-FR');
+                    }
+                }
+            ]
+        });
     });
 </script>

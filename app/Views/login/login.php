@@ -89,7 +89,7 @@
                         <div class="card-body">
                             <h1>Connexion</h1>
                             <p class="text-body-secondary">Connecter vous à votre compte</p>
-                            <form action="/login" method="POST">
+                            <form action="<?= base_url('/login'); ?>" method="POST">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">
                                       <svg class="icon">
@@ -123,7 +123,8 @@
                                 <h2>Rejoignez-nous !</h2>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
                                     incididunt ut labore et dolore magna aliqua.</p>
-                                <a class="btn btn-lg btn-outline-light mt-3" href="/Login/Register" >Créer un compte</a>
+                                <a class="btn btn-lg btn-outline-light mt-3" href="<?= base_url('/login/register');
+                                ?>" >Créer un compte</a>
                             </div>
                         </div>
                     </div>

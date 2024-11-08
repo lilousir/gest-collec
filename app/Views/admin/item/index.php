@@ -1,9 +1,8 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h4>Liste des objets</h4>
-        <a href="/admin/item/new"><i class="fa-solid fa-circle-plus"></i></a>
+        <a href="<?= base_url('/admin/item/new'); ?>"><i class="fa-solid fa-circle-plus"></i></a>
     </div>
-
     <div class="card-body">
         <table class="table table-sm table-hover" id="tableItems">
             <thead>
@@ -17,7 +16,6 @@
             </tr>
             </thead>
             <tbody>
-
             </tbody>
         </table>
     </div>
@@ -31,10 +29,10 @@
             "serverSide": true,
             "pageLength": 10,
             "language": {
-                url: '<?= base_url("/js/datatable/datatable-2.1.4-fr-FR.json") ?>',
+                url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json',
             },
             "ajax": {
-                "url": "<?= base_url('/admin/item/searchdatatable'); ?>",
+                "url": baseUrl + "admin/item/searchdatatable",
                 "type": "POST",
                 "data" : { 'model' : 'ItemModel'}
             },
@@ -46,28 +44,28 @@
                     sortable : false,
                     render : function(data, type, row) {
                         return (row.active == 1 ?
-                            `<a title="Désactiver" href="/admin/item/deactivate/${row.id}"><i class="fa-solid fa-xl fa-toggle-on text-success"></i></a>`: `<a title="Activer"href="/admin/item/activate/${row.id}"><i class="fa-solid fa-toggle-off fa-xl text-danger"></i></a>`);
+                            `<a title="Désactiver" class="link-underline link-underline-opacity-0" href="${baseUrl}admin/item/deactivate/${row.id}"><i class="fa-solid fa-xl fa-toggle-on text-success"></i></a>`: `<a class="link-underline link-underline-opacity-0" title="Activer"href="${baseUrl}admin/item/activate/${row.id}"><i class="fa-solid fa-toggle-off fa-xl text-danger"></i></a>`);
                     }
                 },
                 {
                     data : 'slug',
                     sortable : false,
                     render : function(data) {
-                        return `<a target="_blank" href="/item/${data}"><i class="fa-solid fa-eye"></i></a>`;
+                        return `<a target="_blank" class="link-underline link-underline-opacity-0" href="${baseUrl}item/${data}"><i class="fa-solid fa-eye"></i></a>`;
                     }
                 },
                 {
                     data : 'id',
                     sortable : false,
                     render : function(data) {
-                        return `<a href="/admin/item/${data}"><i class="fa-solid fa-pencil"></i></a>`;
+                        return `<a class="link-underline link-underline-opacity-0" href="${baseUrl}admin/item/${data}"><i class="fa-solid fa-pencil"></i></a>`;
                     }
                 },
                 {
                     data : 'id',
                     sortable : false,
                     render : function(data) {
-                        return `<a href="/admin/item/deleteitem/${data}"><i class="fa-solid fa-trash text-danger"></i></a>`;
+                        return `<a class="link-underline link-underline-opacity-0" class="link-underline link-underline-opacity-0" href="${baseUrl}admin/item/deleteitem/${data}"><i class="fa-solid fa-trash text-danger"></i></a>`;
                     }
                 },
             ]

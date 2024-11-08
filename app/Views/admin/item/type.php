@@ -9,7 +9,7 @@
 </div>
 <div class="row">
     <div class="col-md-4">
-        <form action="/admin/item/createtype" method="POST">
+        <form action="<?= base_url('/admin/item/createtype'); ?>" method="POST">
             <div class="card">
                 <div class="card-header">
                     <h5>Ajouter un type</h5>
@@ -103,16 +103,17 @@
 <script>
     $(document).ready(function () {
         const modalType = new bootstrap.Modal('#modalType');
+        var baseUrl = "<?= base_url(); ?>";
         var dataTable = $('#tableTypes').DataTable({
             "responsive": true,
             "pageLength": 10,
             "processing": true,
             "serverSide": true,
             "language": {
-                url: '<?= base_url("/js/datatable/datatable-2.1.4-fr-FR.json") ?>',
+                url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json',
             },
             "ajax" : {
-                "url" : "<?= base_url('/admin/item/searchdatatable'); ?>",
+                "url" : baseUrl + "admin/item/searchdatatable",
                 "type" : "POST",
                 "data" : { 'model' : 'ItemTypeModel'}
 
@@ -145,14 +146,14 @@
                     data : 'id',
                     sortable : false,
                     render : function(data) {
-                        return `<a class="swal2-type-update" id="${data}" href="<?= base_url('/admin/item/updatetype/');?>${data}"><i class="fa-solid fa-pencil text-success"></i></a>`;
+                        return `<a class="swal2-type-update" id="${data}" href="${baseUrl}/admin/item/updatetype/${data}"><i class="fa-solid fa-pencil text-success"></i></a>`;
                     }
                 },
                 {
                     data : 'id',
                     sortable : false,
                     render : function(data) {
-                        return `<a class="swal2-brand" id="${data}" href="<?= base_url('/admin/item/deletetype/');?>${data}"><i class="fa-solid fa-trash text-danger"></i></a>`;
+                        return `<a class="swal2-type" id="${data}" href="${baseUrl}/admin/item/deletetype/${data}"><i class="fa-solid fa-trash text-danger"></i></a>`;
                     }
                 }
             ]
@@ -164,18 +165,18 @@
             let link = $(this).attr('href');
             let id = $(this).attr("id");
             if (id == 1) {
-                Swal.fire("On ne peut pas supprimer \"non classe\" !");
+                Swal.fire("On ne peut pas supprimer \"Non classé\" !");
             } else {
                 $.ajax({
                     type: "GET",
-                    url: "<?= base_url('/admin/item/totalitembytype'); ?>",
+                    url: baseUrl + "/admin/item/totalitembytype",
                     data: {
                         id: id,
                     },
                     success: function (data) {
                         let json = JSON.parse(data);
                         let title = "Supprimer un type"
-                        let text = `Ce type est attribuée à <b class="text-danger">${json.total}</b> objets.
+                        let text = `Ce type est attribué à <b class="text-danger">${json.total}</b> objets.
                         Êtes-vous sûr de vouloir continuer ?`;
                         warningswal2(title,text,link);
                     }
@@ -187,21 +188,29 @@
             modalType.show();
             let id_type = $(this).attr('id');
             let name = $(this).closest('tr').find(".name-type").html();
+            let id_type_parent = $(this).closest('tr').find(".id-type-parent").html();
             $('.modal input[name="id"]').val(id_type);
             $('.modal input[name="name"]').val(name);
+            if (id_type_parent == "") {
+                id_type_parent = "none";
+            }
+            $('.modal select[name="id_type_parent"]').val(id_type_parent);
         });
         $("#formModal").on('submit', function(event) {
             event.preventDefault();
             let id_type = $('.modal input[name="id"]').val();
             let name_type = $('.modal input[name="name"]').val();
+            let id_type_parent = $('.modal select[name="id_type_parent"]').val();
             $.ajax({
                 type: "POST",
                 url: $(this).attr("action"),
                 data : {
                     id : id_type,
-                    name : name_type
+                    name : name_type,
+                    id_type_parent : id_type_parent,
                 },
                 success: function (data) {
+                    console.log(data);
                     //je transforme mon contenu pour l'utiliser en javascript
                     var json = JSON.parse(data);
                     //déclaration de ma ligne pour l'utiliser plusieurs fois

@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header d-flex justify-content-between align-items-center">
         <h4>Liste des utilisateur</h4>
-        <a href="/admin/user/new"><i class="fa-solid fa-user-plus"></i></a>
+        <a href="<?= base_url('/admin/user/new'); ?>"><i class="fa-solid fa-user-plus"></i></a>
     </div>
     <div class="card-body">
         <table id="tableUsers" class="table table-hover">

@@ -9,7 +9,7 @@
 </div>
 <div class="row">
     <div class="col-md-4">
-        <form action="/admin/item/creategenre" method="POST">
+        <form action="<?= base_url('/admin/item/creategenre'); ?>" method="POST">
             <div class="card">
                 <div class="card-header">
                     <h5>Ajouter un genre</h5>
@@ -17,10 +17,18 @@
                 <div class="card-body">
                     <label class="form-label">Nom du genre</label>
                     <input type="text" class="form-control" name="name">
-
+                    <label class="form-label">Genre parente</label>
+                    <select class="form-select" name="id_genre_parent">
+                        <option value="" selected>Aucun</option>
+                        <?php foreach ($all_genres as $genre) { ?>
+                            <option value="<?= $genre['id']; ?>">
+                                <?= $genre['name']; ?>
+                            </option>
+                        <?php } ?>
+                    </select>
                 </div>
                 <div class="card-footer text-end">
-                    <button type="submit" class="btn btn-primary">Valider</button>
+                    <button  type="submit" class="btn btn-primary">Valider</button>
                 </div>
             </div>
         </form>
@@ -54,23 +62,23 @@
 </div>
 <script>
     $(document).ready(function () {
+        var baseUrl = <?= base_url(); ?>;
         var dataTable = $('#tableGenres').DataTable({
             "responsive": true,
             "pageLength": 10,
             "processing": true,
             "serverSide": true,
             "language": {
-                url: '<?= base_url("/js/datatable/datatable-2.1.4-fr-FR.json") ?>',
+                url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json',
             },
             "ajax" : {
-                "url" : "<?= base_url('/admin/item/searchdatatable'); ?>",
+                "url" : baseUrl + "admin/item/searchdatatable",
                 "type" : "POST",
                 "data" : { 'model' : 'ItemGenreModel'}
 
             },
             "columns": [
                 {"data": "id"},
-
                 {"data": "name"},
                 {"data": "slug"},
                 {"data": "slug"},
@@ -78,33 +86,30 @@
                     data : 'id',
                     sortable : false,
                     render : function(data) {
-                        return `<a class="swal2-genre" id="${data}" swal2-title="Etes-vous sur de vouloir supp" swal2-text="" href="<?= base_url('/admin/item/deletegenre/'); ?>${data}"><i class="fa-solid
-                        fa-trash text-danger"></i></a>`;
+                        return `<a class="swal2-genre" id="${data}" href="${baseUrl}admin/item/deletegenre/${data}"><i class="fa-solid fa-trash text-danger"></i></a>`;
                     }
                 }
             ]
-
         });
         $("body").on('click', '.swal2-genre', function(event) {
             event.preventDefault();
             let title = $(this).attr("swal2-title");
             let text = $(this).attr("swal2-text");
-            let link = $(this).attr("href");
+            let link = $(this).attr('href');
             let id = $(this).attr("id");
             if (id == 1) {
-                Swal.fire("sur de vouloir faire sa ");
+                Swal.fire("On ne peut pas supprimer \"Aucun Genre\" !");
             } else {
                 $.ajax({
                     type: "GET",
-                    url: "<?= base_url('/admin/item/totalitembygenre'); ?>",
+                    url: baseUrl + "admin/item/totalitembygenre",
                     data: {
                         id: id,
                     },
-                    success: function(data) {
+                    success: function (data) {
                         let json = JSON.parse(data);
-                        console.log(json.total);
                         let title = "Supprimer un genre"
-                        let text = `ce genre est attribué à <b class="text-warning">${json.total}</b> objets. etes-vous sur de vouloir continuer ?`;
+                        let text = `Ce genre est attribué à <b class="text-danger">${json.total}</b> objets. Êtes-vous sûr de vouloir continuer ?`;
                         warningswal2(title,text,link);
                     }
                 })
@@ -112,4 +117,3 @@
         });
     })
 </script>
-
