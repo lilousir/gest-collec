@@ -51,6 +51,7 @@
                     <li><a class="dropdown-item" href="/admin/user/<?= $user->id; ?>">Modifier mon compte</a></li>
                     <li><a class="dropdown-item" href="/login/logout">Se deconnecter</a></li>
                     <li><a class="dropdown-item" href="/item">item</a></li>
+                    <li><a class="dropdown-item" href="/">Accueil</a></li>
                 </ul>
             </li>
         </ul>

@@ -29,7 +29,6 @@ class Item extends BaseController
             }
             $item = model('ItemModel')->getItem($id);
             if ($item) {
-
                 return $this->view('admin/item/item.php', ['genres' => $genres, 'types' => $types, 'licenses' => $licenses, 'brands'=> $brands, 'item' => $item, 'medias' => model('MediaModel')->getMediaByEntityIdAndType($id,'item'), 'genre_item' => model('ItemGenreItemModel')->getAllItemGenreByIdItem($id),'comments' =>$comments], true);
             } else {
                 $this->error('L\'ID n\'est pas valide');

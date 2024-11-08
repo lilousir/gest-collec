@@ -37,7 +37,6 @@
             </ul>
         </div>
         <select id="search-item-head" class="form-control me-2" name="item"></select>
-
         <?php if (isset($user)) { ?>
             <div class="navbar-nav d-flex">
                 <li class="nav-item dropdown">
@@ -49,6 +48,7 @@
                         <li><a class="dropdown-item" href="/admin/user/<?= $user->id; ?>"><i class="fa-solid fa-pencil me-2"></i>Mon profil</a></li>
                         <li><a class="dropdown-item" href="/collection"><i class="fa-brands fa-raspberry-pi me-2"></i>Ma collection</a></li>
                         <li><a class="dropdown-item" href="/login/logout"><i class="fa-solid fa-right-from-bracket me-2"></i>Déconnexion</a></li>
+                        <li><a class="dropdown-item" href="/chat"><i class="fa-brands fa-rocketchat me-2"></i>Chat</a></li>
 
                     </ul>
                 </li>

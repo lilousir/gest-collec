@@ -48,7 +48,7 @@
         </li>
     </ul>
     <div class="sidebar-footer border-top d-none d-md-flex">
-
+        v<?= $version_info['version']; ?>-<?= $version_info['branch']; ?>-<?= $version_info['commit']; ?>
         <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
     </div>
 </div>

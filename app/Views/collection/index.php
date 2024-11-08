@@ -45,8 +45,11 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
             <div class="card-header">Liste des objets
                 <?php
                 if ($controller == "collection") {
-                    echo "de la collection de " . $data['username'];
-                }
+                    echo "de la collection de " . $data['username']; ?>
+
+                    <a href="<?= base_url("/user/sendmessage/"); ?>"><i class="fa-solid fa-envelope"></i></a>
+
+                <?php }
                 if (isset($data)) {
                     $filtre_text = "( ";
                     foreach ($data as $filter => $slug) {

@@ -23,7 +23,7 @@ class UserModel extends Model
 
     // Validation
     protected $validationRules = [
-        'username' => 'required|min_length[3]|max_length[100]',
+        'username' => 'required|is_unique[TableUser.username,id,{id}]|min_length[3]|max_length[100]',
         'email'    => 'required|valid_email|is_unique[TableUser.email,id,{id}]',
         'password' => 'required|min_length[8]',
         'id_permission' => 'required|is_natural_no_zero',
@@ -34,6 +34,7 @@ class UserModel extends Model
             'required'   => 'Le nom d\'utilisateur est requis.',
             'min_length' => 'Le nom d\'utilisateur doit comporter au moins 3 caractères.',
             'max_length' => 'Le nom d\'utilisateur ne doit pas dépasser 100 caractères.',
+            'is_unique'   => 'Ce nom d\'utilisateur est déja utilisé.',
         ],
         'email' => [
             'required'   => 'L\'email est requis.',
@@ -77,6 +78,14 @@ class UserModel extends Model
         return $this->find($id);
     }
 
+    public function getIdUserByUsername($username) {
+        $row =  $this->select('id')->where('username', $username)->get()->getRow();
+        if ($row) {
+            return $row->id;
+        }
+        return null;
+    }
+
     public function getAllUsers()
     {
         return $this->findAll();
@@ -88,7 +97,6 @@ class UserModel extends Model
     }
     public function updateUser($id, $data)
     {
-        $builder = $this->builder();
         if (isset($data['password'])) {
             if($data['password'] == '') {
                 unset($data['password']);
@@ -96,8 +104,10 @@ class UserModel extends Model
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
             }
         }
-        $builder->where('id', $id);
-        return $builder->update($data);
+        if (isset($data['id'])) {
+            unset($data['id']);
+        }
+        return $this->update($id,$data);
     }
     public function deleteUser($id)
     {
@@ -181,7 +191,6 @@ class UserModel extends Model
 
         return $builder->countAllResults();
     }
-
 
 
 }

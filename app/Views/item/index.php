@@ -9,7 +9,7 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
             <div class="card-header">Filtre de recherche</div>
             <div class="card-body">
                 <form method="get" action="<?= base_url($controller); ?>">
-                    <label class="form-label mt-3" for="license">Licenses</label>
+                    <label class="form-label" for="license">Licenses</label>
                     <select class="form-select" name="license[slug]" id="license">
                         <option selected disabled value="">Aucun</option>
                         <?php foreach($licenses as $license): ?>
@@ -36,7 +36,7 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
                     <?php if (isset($data['search'])) { ?>
                         <input type="hidden" value="<?= $data['search']; ?>" name="search">
                     <?php }?>
-                    <div class="d-grid">
+                    <div class="d-grid mt-3">
                         <button class="btn btn-primary" type="submit">Valider mes filtres</button>
                     </div>
                 </form>
@@ -49,29 +49,37 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
                 <?php
                 if ($controller == "collection") {
                     echo "de la collection de " . $data['username'];
+                    if ($user->username != $data['username']) { ?>
+                        <a href="<?= base_url("/user/sendmessage/" . $data['username']); ?>" title="Envoyer un message privé">
+                            <i class="fa-solid fa-envelope"></i>
+                        </a>
+                        <?php
+                    }
                 }
                 if ($data) {
-                    $filtre_text = "| Filtrer par :  ";
+                    $filtre_text = " | Filtrer par :  ";
                     foreach ($data as $filter => $slug) {
                         switch ($filter) {
                             case 'license' :
                                 $filtre_text .= "<a data-bs-toggle='tooltip' 
-                                                title='Filtrer par la licence' href='" . base_url('item?license[slug]=') . $slug['slug'] . "'>".$slug['slug'] ."</a> ";
+                                                title='Filtrer par la licence' href='" . base_url($controller . '?license[slug]=') . $slug['slug'] . "'>".$slug['slug'] ."</a> ";
                                 break;
                             case 'brand' :
                                 $filtre_text .= "<a data-bs-toggle='tooltip' 
-                                                title='Filtrer par la marque' href='" . base_url('item?brand[slug]=') . $slug['slug'] . "'>".$slug['slug'] ."</a> ";
+                                                title='Filtrer par la marque' href='" . base_url($controller . '?brand[slug]=') . $slug['slug'] . "'>".$slug['slug'] ."</a> ";
                                 break;
                             case 'type' :
                                 $filtre_text .= "<a data-bs-toggle='tooltip' 
-                                                title='Filtrer par le type' href='" . base_url('item?type[slug]=') . $slug['slug'] . "'>".$slug['slug'] ."</a> ";
+                                                title='Filtrer par le type' href='" . base_url($controller . '?type[slug]=') . $slug['slug'] . "'>".$slug['slug'] ."</a> ";
                                 break;
                             case 'search' :
                                 $filtre_text .= "<a data-bs-toggle='tooltip' 
-                                                title='Contient le terme' href='" . base_url('item?search=') . $slug . "'>".$slug ."</a> ";
+                                                title='Contient le terme' href='" . base_url($controller . '?search=') . $slug . "'>".$slug ."</a> ";
                         }
                     }
-                    echo $filtre_text;
+                    if ($filtre_text != " | Filtrer par :  ") {
+                        echo $filtre_text;
+                    }
                 }
                 ?>
             </div>
@@ -85,7 +93,7 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
                                     $img_src = !empty($item['default_img_file_path']) ? base_url($item['default_img_file_path']) : base_url('assets/img/full.jpg');
                                     ?>
                                     <a href="<?= base_url('item/' . $item['slug']) ?>">
-                                        <img src="<?= $img_src; ?>" class="card-img-top" alt="...">
+                                        <img src="<?= $img_src ?>" class="card-img-top" alt="<?= $item['name']; ?>">
                                     </a>
                                     <div class="card-body">
                                         <div class="card-title"><?= $item['name']; ?></div>
@@ -110,12 +118,6 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
                 </div>
             </div>
         </div>
-    </div>
-
-</div>
-<div class="row" >
-    <div class="col p-3">
-        <h3>Commentaires</h3>
     </div>
 </div>
 <style>
@@ -182,22 +184,24 @@ $controller = strtolower(basename(str_replace('\\', '/', $router->controllerName
                 opacity: '0'     // Rendre le footer invisible
             }, 300);
         });
-    });
-
-    $('#license').select2({
-        theme: 'bootstrap-5',
-        placeholder: 'recherche une licence',
-        allowClear: true
-    });
-    $('#brand').select2({
-        theme: 'bootstrap-5',
-        placeholder: 'recherche une marque',
-        allowClear: true
-    });
-    $('#type').select2({
-        theme: 'bootstrap-5',
-        placeholder: 'recherche un type',
-        allowClear: true
+        $('#license').select2({
+                theme: 'bootstrap-5',
+                placeholder: 'Rechercher une licence',
+                allowClear: true
+            }
+        );
+        $('#brand').select2({
+                theme: 'bootstrap-5',
+                placeholder: 'Rechercher une marque',
+                allowClear: true
+            }
+        );
+        $('#type').select2({
+                theme: 'bootstrap-5',
+                placeholder: 'Rechercher un type',
+                allowClear: true
+            }
+        );
     });
 </script>
 <!-- START: OFFCANVAS -->
