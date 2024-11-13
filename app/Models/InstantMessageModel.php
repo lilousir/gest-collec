@@ -15,7 +15,7 @@ class InstantMessageModel extends Model
         return $this->insert($data);
     }
 
-    public function getMessageHistory($id_1, $id_2, $limit, $offset) {
+    public function getMessageHistory($id_1, $id_2, $limit = 10, $offset = 0) {
         $this->select('*');
         $this->groupStart();
         $this->where('id_sender', $id_1);
@@ -25,21 +25,22 @@ class InstantMessageModel extends Model
         $this->where('id_sender', $id_2);
         $this->where('id_receiver', $id_1);
         $this->groupEnd();
-
         $this->orderBy('created_at', 'desc');
         return $this->findAll($limit, $offset);
     }
+
     public function getLastMessageHistory($id_1, $id_2, $limit, $offset, $timestamp) {
         $this->select('*');
         $this->groupStart();
         $this->where('id_sender', $id_1);
         $this->where('id_receiver', $id_2);
+        $this->where('created_at > ', $timestamp);
         $this->groupEnd();
         $this->orGroupStart();
         $this->where('id_sender', $id_2);
         $this->where('id_receiver', $id_1);
+        $this->where('created_at > ', $timestamp);
         $this->groupEnd();
-        $this->where('created_at', $timestamp);
         $this->orderBy('created_at', 'desc');
         return $this->findAll($limit, $offset);
     }
