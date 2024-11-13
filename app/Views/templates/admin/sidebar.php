@@ -15,7 +15,7 @@
             if (!isset($menu['subs'])) { ?>
                 <li class="nav-item <?= ($localmenu === $km ? 'active' : '') ?>"
                     id="menu_<?= $km ?>">
-                    <a class="nav-link" href="<?= $menu['url'] ?>">
+                    <a class="nav-link" href="<?= base_url ($menu['url']) ?>">
                         <?php if (isset($menu['icon'])) { echo $menu['icon']; }
                         else { ?><svg class="nav-icon"><span class="bullet bullet-dot"></svg><?php } ?>
                         <?= $menu['title'] ?>
@@ -32,7 +32,7 @@
 
                             if (isset($smenu['admin']) && ! $user->isAdmin()) { continue; }
                             if (isset($smenu['require']) && ! $user->check($smenu['require'])) { continue; } ?>
-                            <li class="nav-item" id="menu_<?= $ksm ?>"><a class="nav-link" href="<?= $smenu['url'] ?>">
+                            <li class="nav-item" id="menu_<?= $ksm ?>"><a class="nav-link" href="<?= base_url($smenu['url'])?>">
                                     <?php if (isset($smenu['icon'])) echo $smenu['icon']; ?>
                                     <?= $smenu['title'] ?></a></li>
                         <?php } ?>
@@ -41,7 +41,7 @@
             <?php }} ?>
 
         <li class="nav-item mt-auto">
-            <a class="nav-link" href="/login/logout">
+            <a class="nav-link" href="<?= base_url("/login/logout") ?>">
                 <svg class="nav-icon me-2">
                     <use xlink:href="/vendors/@coreui/icons/svg/free.svg#cil-account-logout"></use>
                 </svg> Déconnexion</a>
