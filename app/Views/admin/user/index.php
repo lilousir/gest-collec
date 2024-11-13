@@ -32,10 +32,10 @@
             "serverSide": true,
             "pageLength": 10,
             "language": {
-                url: '<?= base_url("/js/datatable/datatable-2.1.4-fr-FR.json") ?>',
+                url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json',
             },
             "ajax": {
-                "url": "<?= base_url('/admin/user/SearchUser'); ?>",
+                "url": baseUrl + "admin/user/SearchUser",
                 "type": "POST"
             },
             "columns": [
@@ -59,7 +59,7 @@
                     data : 'id',
                     sortable : false,
                     render : function(data) {
-                        return `<a href="/admin/user/${data}"><i class="fa-solid fa-pencil"></i></a>`;
+                        return `<a href="${baseUrl}admin/user/${data}"><i class="fa-solid fa-pencil"></i></a>`;
                     }
                 },
                 {
@@ -67,7 +67,7 @@
                     sortable : false,
                     render : function(data, type, row) {
                         return (row.deleted_at === null ?
-                            `<a title="Désactiver l'utilisateur" href="/admin/user/deactivate/${row.id}"><i class="fa-solid fa-xl fa-toggle-off text-success"></i></a>`: `<a title="Activer un utilisateur"href="/admin/user/activate/${row.id}"><i class="fa-solid fa-toggle-on fa-xl text-danger"></i></a>`);
+                            `<a title="Désactiver l'utilisateur" href="${baseUrl}admin/user/deactivate/${row.id}"><i class="fa-solid fa-xl fa-toggle-on text-success"></i></a>`: `<a title="Activer un utilisateur"href="${baseUrl}admin/user/activate/${row.id}"><i class="fa-solid fa-toggle-off fa-xl text-danger"></i></a>`);
                     }
                 }
             ]
