@@ -25,7 +25,7 @@ class Item extends BaseController
             $brands = model('ItemBrandModel')->getAllBrands();
             //Si mon ID est égale à "new" je suis en création
             if ($id == "new") {
-                return $this->view('admin/item/item.php', ['genres' => $genres, 'types' => $types, 'licenses' => $licenses, 'brands'=> $brands,], true);
+                return $this->view('admin/item/item.php', ['genres' => $genres, 'types' => $types, 'licenses' => $licenses, 'brands'=> $brands, 'comments' => $comments], true);
             }
             $item = model('ItemModel')->getItem($id);
             if ($item) {

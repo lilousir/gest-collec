@@ -14,8 +14,9 @@ class User extends BaseController
             return $this->view("/admin/user/index.php",['users' => $users], true);
         } else {
             $permissions = Model("UserPermissionModel")->getAllPermissions();
+            $comments = model("CommentModel")->getAllCommentsByUser($id);
             if ($id == "new") {
-                return $this->view("/admin/user/user",["permissions" => $permissions], true);
+                return $this->view("/admin/user/user",["permissions" => $permissions,"comments" => $comments ], true);
             }
             $utilisateur = $um->getUserById($id);
 

@@ -75,9 +75,6 @@
                         </div>
                     </div>
                 </div>
-
-
-
                 <div class="card-footer text-end">
                     <?php if (isset($utilisateur)): ?>
                         <input type="hidden" name="id" value="<?= $utilisateur['id']; ?>">
