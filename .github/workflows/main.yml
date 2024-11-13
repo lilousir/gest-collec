@@ -93,5 +93,5 @@ jobs:
 
       - name: Run Migration via API
         run: |
-          curl -X GET "${{ secrets.BASE_URL }}/api/migration "\
+          curl -X GET "${{ secrets.BASE_URL }}/api/migration" \
           -H "Authorisation: ${{ secrets.ENV_TOKEN }}"
