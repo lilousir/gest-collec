@@ -25,11 +25,11 @@ class Item extends BaseController
             $brands = model('ItemBrandModel')->getAllBrands();
             //Si mon ID est égale à "new" je suis en création
             if ($id == "new") {
-                return $this->view('admin/item/item.php', ['genres' => $genres, 'types' => $types, 'licenses' => $licenses, 'brands'=> $brands, 'comments' => $comments], true);
+                return $this->view('admin/item/Item.php', ['genres' => $genres, 'types' => $types, 'licenses' => $licenses, 'brands'=> $brands, 'comments' => $comments], true);
             }
             $item = model('ItemModel')->getItem($id);
             if ($item) {
-                return $this->view('admin/item/item.php', ['genres' => $genres, 'types' => $types, 'licenses' => $licenses, 'brands'=> $brands, 'item' => $item, 'medias' => model('MediaModel')->getMediaByEntityIdAndType($id,'item'), 'genre_item' => model('ItemGenreItemModel')->getAllItemGenreByIdItem($id),'comments' =>$comments], true);
+                return $this->view('admin/item/Item.php', ['genres' => $genres, 'types' => $types, 'licenses' => $licenses, 'brands'=> $brands, 'item' => $item, 'medias' => model('MediaModel')->getMediaByEntityIdAndType($id,'item'), 'genre_item' => model('ItemGenreItemModel')->getAllItemGenreByIdItem($id),'comments' =>$comments], true);
             } else {
                 $this->error('L\'ID n\'est pas valide');
                 $this->redirect('/admin/item');
