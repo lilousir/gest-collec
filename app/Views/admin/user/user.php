@@ -1,47 +1,31 @@
 <div class="row">
     <div class="col">
-        <form action="<?= isset($utilisateur) ? base_url("/admin/user/update") : base_url("/admin/user/create") ?>" method="POST" enctype="multipart/form-data">
+        <form action="<?= isset($utilisateur) ? "/admin/user/update" : "/admin/user/create" ?>" method="POST" enctype="multipart/form-data">
             <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
+                <div class="card-header">
                     <h4 class="card-title">
                         <?= isset($utilisateur) ? "Editer " . $utilisateur['username'] : "Créer un utilisateur" ?>
                     </h4>
-                    <?php
-                    if (isset($utilisateur) && $utilisateur['deleted_at'] == null) { ?>
-                        <a title="Désactiver l'utilisateur" href="<?= base_url('admin/user/deactivate/') . $utilisateur['id']; ?>">
-                            <i class="fa-solid fa-xl fa-toggle-on text-success"></i>
-                        </a>
-                        <?php
-                    } elseif(isset($utilisateur)) { ?>
-                        <a title="Activer un utilisateur"href="<?= base_url('admin/user/activate/') . $utilisateur['id']; ?>">
-                            <i class="fa-solid fa-toggle-off fa-xl text-danger"></i>
-                        </a>
-                        <?php
-                    }
-                    ?>
                 </div>
-                <div class="card-body">
-                    <ul class="nav nav-tabs" id="myTab" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="profil-tab" data-bs-toggle="tab" data-bs-target="#profil" type="button" role="tab" aria-controls="profil" aria-selected="true">Profil</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="onglet-tab" data-bs-toggle="tab"
-                                    data-bs-target="#onglet" type="button" role="tab" aria-controls="onglet"
-                                    aria-selected="false">ONGLET</button>
-                        </li>
-                    </ul>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-profil" role="presentation">
+                        <button class="nav-link active" id="profil-tab" data-bs-toggle="tab" data-bs-target="#profil-pane" type="button" role="tab" aria-controls="profil" aria-selected="true">Profil</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="comment-tab" data-bs-toggle="tab" data-bs-target="#comment-pane" type="button" role="tab" aria-controls="comment" aria-selected="false">Commentaires</button>
+                    </li>
 
-                    <!-- Tab panes -->
-                    <div class="tab-content border p-3">
-                        <div class="tab-pane active" id="profil" role="tabpanel" aria-labelledby="profil-tab" tabindex="0">
+                </ul>
+                <div class="tab-content p-3">
+                    <div class="tab-pane fade show active" id="profil-pane" role="tabpanel" aria-labelledby="profil-tab" tabindex="0">
+                        <div class="card-body">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Pseudo</label>
                                 <input type="text" class="form-control" id="username" placeholder="username" value="<?= isset($utilisateur) ? $utilisateur['username'] : ""; ?>" name="username">
                             </div>
                             <div class="mb-3">
                                 <label for="mail" class="form-label">E-mail</label>
-                                <input type="text" class="form-control" id="mail" placeholder="mail" value="<?= isset($utilisateur) ? $utilisateur['email'] : "" ?>" <?= isset($utilisateur) ? "readonly" : "" ?> name="<?= !isset($utilisateur) ? "email" : "" ?>">
+                                <input type="text" class="form-control" id="mail" placeholder="mail" value="<?= isset($utilisateur) ? $utilisateur['email'] : "" ?>" name="email" <?= isset($utilisateur) ? "readonly" : "" ?> >
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Mot de passe</label>
@@ -60,22 +44,39 @@
                             </div>
                             <div class="mb-3">
                                 <label for="image" class="form-label">Avatar</label>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <img class="img-thumbnail me-2" id="preview" alt="Aperçu de l'image" style="display: <?= isset($utilisateur) && isset($profile_img) ? "block":"none"; ?>; margin-top: 10px; max-width: 100px; max-height: 100px;" src="<?= isset($utilisateur) && isset($profile_img) ? base_url($profile_img['file_path']) :"#"; ?>" >
-                                    <input class="form-control" type="file" name="profile_image" id="image" accept="image/*">
-                                </div>
-
-
+                                <input class="form-control" type="file" name="profile_image" id="image">
                             </div>
-
                         </div>
+                    </div>
+                    <div class="tab-pane fade show active" id="comment-pane" role="tabpanel" aria-labelledby="comment-tab" tabindex="0">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="col p-3">
+                                        <?php foreach($comments as $comment) : ?>
+                                            <div class="card mb-3 comment" data-id="<?= $comment['id']; ?>">
+                                                <div class="card-header d-flex justify-content-between">
 
-                        <div class="tab-pane" id="onglet" role="tabpanel" aria-labelledby="onglet-tab" tabindex="0">
-
+                                                    <div>
+                                                        <small class="text-body-secondary">Le
+                                                            <?php
+                                                            $date = new DateTime($comment['date']);
+                                                            echo $date->format('d/m/Y H:i:s'); ?></small>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body">
+                                                    <?= $comment['content']; ?>
+                                                </div>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
                 </div>
+
+
 
                 <div class="card-footer text-end">
                     <?php if (isset($utilisateur)): ?>
@@ -86,26 +87,8 @@
                     </button>
                 </div>
             </div>
+
+
         </form>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        $('#image').change(function (event) {
-            let preview = $('#preview');
-            let file = event.target.files[0];
-
-            if (file) {
-                let reader = new FileReader();
-
-                reader.onload = function (e) {
-                    preview.attr('src', e.target.result).show();
-                };
-
-                reader.readAsDataURL(file);
-            } else {
-                preview.attr('src', '#').hide();
-            }
-        });
-    });
-</script>
