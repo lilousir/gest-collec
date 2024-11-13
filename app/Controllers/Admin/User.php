@@ -17,7 +17,6 @@ class User extends BaseController
 
             if ($id == "new") {
                 $comments = model("CommentModel")->getAllCommentsByUser($id);
-
                 return $this->view("/admin/user/user",["permissions" => $permissions,"comments" => $comments], true);
             }
             $utilisateur = $um->getUserById($id);
@@ -74,15 +73,14 @@ class User extends BaseController
             // Si la mise à jour réussit
             $this->success("L'utilisateur a bien été modifié.");
         } else {
-            // Si une erreur survient lors de la mise à jour
-            $this->error("Une erreur est survenue lors de la modification de l'utilisateur.");
-        }
+            $this->error("pas sa ");
+
+            }
+
 
         // Redirection vers la page des utilisateurs après le traitement
         return $this->redirect("/admin/user");
     }
-
-
 
     public function postcreate() {
         $data = $this->request->getPost();

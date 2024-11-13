@@ -97,6 +97,7 @@ class UserModel extends Model
     }
     public function updateUser($id, $data)
     {
+        $builder = $this->builder();
         if (isset($data['password'])) {
             if($data['password'] == '') {
                 unset($data['password']);
@@ -104,10 +105,8 @@ class UserModel extends Model
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
             }
         }
-        if (isset($data['id'])) {
-            unset($data['id']);
-        }
-        return $this->update($id,$data);
+        $builder->where('id', $id);
+        return $builder->update($data);
     }
     public function deleteUser($id)
     {
