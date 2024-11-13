@@ -59,7 +59,7 @@
                     data : 'id',
                     sortable : false,
                     render : function(data) {
-                        return `<a href="/admin/user/${data}"><i class="fa-solid fa-pencil"></i></a>`;
+                        return `<a href="${baseUrl}admin/user/${data}"><i class="fa-solid fa-pencil"></i></a>`;
                     }
                 },
                 {
