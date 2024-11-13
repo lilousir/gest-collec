@@ -17,10 +17,12 @@ jobs:
       - name: Install Composer dependencies
         run: composer install --no-dev
 
-      - name: Modify .env
+      - name: Create .env file
         run: |
-          sed -i 's/ENVIRONMENT = development/ENVIRONMENT = production/g' .env
+          echo "APP_ENV=production" >> .env
+          echo "GITHUB_ACCESS=${{ secrets.ENV_TOKEN }}" .env
           cat .env
+
 
       - name: Modify App.php
         run: |
@@ -89,4 +91,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           server-dir: ${{ secrets.URL_PREFIX }}/
 
-     
+      - name: Run Migration via API
+        run: |
+          curl -X GET "${{ secrets.BASE_URL }}/api/migration "\
+          -H "Authorisation: ${{ secrets.ENV_TOKEN }}"
