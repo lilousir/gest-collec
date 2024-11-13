@@ -26,7 +26,7 @@
                                 <?php
                                 foreach($menu['subs'] as $ksm => $smenu) {
                                     if (isset($smenu['require']) && ! $user->check($smenu['require'])) { continue; } ?>
-                                    <li id="menu_<?= $ksm ?>"><a class="dropdown-item" href="<?= $smenu['url'] ?>">
+                                    <li id="menu_<?= $ksm ?>"><a class="dropdown-item" href="<?= base_url($smenu['url']) ?>">
                                             <?php if (isset($smenu['icon'])) echo $smenu['icon']; ?>
                                             <?= $smenu['title'] ?></a></li>
                                 <?php } ?>
