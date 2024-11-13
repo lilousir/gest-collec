@@ -48,10 +48,10 @@
                 </button>
                 <ul class="dropdown-menu">
                     <li class="p-2"><img class="img-thumbnail mx-auto d-block" height="80px" src="<?= base_url($user->getProfileImage()); ?>"></li>
-                    <li><a class="dropdown-item" href="/admin/user/<?= $user->id; ?>">Modifier mon compte</a></li>
-                    <li><a class="dropdown-item" href="/login/logout">Se deconnecter</a></li>
-                    <li><a class="dropdown-item" href="/item">item</a></li>
-                    <li><a class="dropdown-item" href="/">Accueil</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('/admin/user/')?><?= $user->id; ?>">Modifier mon compte</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('/login/logout')?>">Se deconnecter</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('/item')?>">item</a></li>
+                    <li><a class="dropdown-item" href="<?= base_url('/')?>">Accueil</a></li>
                 </ul>
             </li>
         </ul>
