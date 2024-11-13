@@ -16,10 +16,7 @@ class User extends BaseController
             $permissions = Model("UserPermissionModel")->getAllPermissions();
 
             if ($id == "new") {
-
                 $comments = model("CommentModel")->getAllCommentsByUser($id);
-
-                
 
                 return $this->view("/admin/user/user",["permissions" => $permissions,"comments" => $comments], true);
             }
