@@ -13,7 +13,12 @@ class Comment extends BaseController
 
     public function getindex($id=null){
         if ($id) {
+
             return $this->view('/admin/comment-update', ['comment' => Model('CommentModel')->getCommentById($id)],true);
+        } else {
+            $comments = model("CommentModel")->getAllCommentsByUser();
+            return $this->view('/admin/comment-create', ['comments' => $comments],true);
+
         }
 
 
