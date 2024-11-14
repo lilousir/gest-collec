@@ -88,7 +88,14 @@ class UserModel extends Model
 
     public function getAllUsers()
     {
+
         return $this->findAll();
+    }
+    public function getAllUser(){
+        $builder = $this->builder();
+        $builder->select("TableUser.username, TableUser.email, TableUser.created_at,media.file_path as avatar_url");
+        $builder->join('media', 'TableUser.id = media.entity_id AND media.entity_type = "user"', 'left');
+        return $builder->get()->getResultArray();
     }
 
     public function createUser($data)

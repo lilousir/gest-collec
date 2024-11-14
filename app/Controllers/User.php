@@ -19,6 +19,12 @@ class User extends BaseController
         }
     }
 
+    public function getallusers()
+    {
+        $users = model('UserModel')->getAllUser();
+        return $this->view('users/index', ['users' => $users]);
+    }
+
     public function getsendmessage($username = null) {
         return $this->view("/message/sendmessage", ['username' => $username]);
     }
