@@ -37,7 +37,7 @@
       },
       "commentaire" : {
         "title" : "Commantaires",
-        "url" : "/admin/item/comment",
+        "url" : "/admin/comment",
         "icon" : "<i class=\"nav-icon fa-solid fa-comment\"></i>"
       }
     }

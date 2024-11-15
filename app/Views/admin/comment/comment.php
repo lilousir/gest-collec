@@ -1,3 +1,4 @@
+coucou
 <?php if (isset($comment['id'])) : ?>
     <div class="row">
         <div class="col-md-9">

@@ -1,67 +1,55 @@
-<div class="card">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h4>Liste des commentaires des objets</h4>
-    </div>
-    <div class="card-body">
-        <table class="table table-sm table-hover" id="tableComments">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Utilisateur</th>
-                <th>Reponse</th>
-                <th>Commentaire</th>
-                <th>Nom de l'objet</th>
-                <th>Date</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
+<div class="row mb-4">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <h3>Commentaires</h3>
+            </div>
+        </div>
     </div>
 </div>
-<script>
-    $(document).ready(function () {
-        var baseUrl = "<?= base_url(); ?>";
-        var dataTable = $('#tableComments').DataTable({
-            "responsive": true,
-            "processing": true,
-            "serverSide": true,
-            "pageLength": 10,
-            "language": {
-                url: baseUrl + 'js/datatable/datatable-2.1.4-fr-FR.json',
-            },
-            "ajax": {
-                "url": baseUrl + "admin/comment/searchdatatable",
-                "type": "POST",
-            },
-            "columns": [
-                {"data": "id"},
-                {
-                    data : 'id_user',
-                    sortable : false,
-                    render : function(data, type, row) {
-                        return `<a class="link-underline link-underline-opacity-0" href="${baseUrl}admin/user/${row.id_user}">${row.username}</a>`;
-                    }
-                },
-                {"data": "id_comment_parent"},
-                {"data": "content"},
-                {
-                    data : 'item_name',
-                    sortable : false,
-                    render : function(data, type, row) {
-                        return `<a class="link-underline link-underline-opacity-0" href="${baseUrl}admin/item/${row.id_item}">${row.item_name}</a>`;
-                    }
-                },
-                {"data": "created_at"},
-                {
-                    data : 'id',
-                    sortable : false,
-                    render : function(data) {
-                        return `<a href="${baseUrl}admin/comment/${data}"><i class="fa-solid fa-pencil"></i></a>`;
-                    }
-                },
-            ]
-        });
-    });
 
-</script>
+<div class="col">
+    <div class="card">
+        <div class="card-header">
+            <h5>Liste des commentaires</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-sm table-hover" id="tableGenre">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>username</th>
+                    <th>Réponse</th>
+                    <th>Contenu</th>
+                    <th>Nom de l'objet</th>
+                    <th>Date</th>
+                    <th>Modifier</th>
+                    <th>Supprimer</th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                <?php foreach ($comments as $comment): ?>
+                <tr>
+
+                    <td><?= $comment['id']?></td>
+                    <td><a href="/admin/user/<?= $comment['id_user']?>"><?= $comment['username'];?></a> </td>
+                    <td><?= $comment['reponse']?></td>
+                    <td><?= $comment['content']?></td>
+                    <td><a href="/admin/item/<?= $comment['entity_id']?>"><?= $comment['name']?></td>
+                    <td><?= $comment['date']?></td>
+
+                    <td><a href="/admin/comment/<?=$comment['id']; ?>" class="btn btn-primary"><i class="fa-solid fa-pencil"></i></a></td>
+
+                    <td><a href="/admin/comment/delete/<?= $comment['id']?>" class="btn btn-danger"><i class="fa-solid fa-trash-can"></form></i></td>
+
+                    <?php endforeach; ?>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card-footer">
+        </div>
+    </div>
+</div>

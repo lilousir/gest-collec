@@ -50,7 +50,7 @@ class ItemBrandModel extends Model
         return $this->where('slug',$slug)->first();
     }
     public function insertBrand($item) {
-        if(isset($item['id_brand_parent']) && empty($item['id_brand_parent'])) {
+        if(isset($item['id_brand_parent']) && (empty($item['id_brand_parent']) || $item['id_brand_parent'] == 'none')) {
             unset($item['id_brand_parent']);
         }
         if (isset($item['name'])) {
@@ -61,7 +61,10 @@ class ItemBrandModel extends Model
 
     public function updateBrand($id, $data) {
         if (isset($data['name'])) {
-            $data['slug'] = $this->generateUniqueSlug($data['name']);
+            $data['slug'] = $this->generateUniqueSlug($data['name'],$id);
+        }
+        if ($data['id_brand_parent'] == 'none') {
+            $data['id_brand_parent'] = null;
         }
         return $this->update($id, $data);
     }
