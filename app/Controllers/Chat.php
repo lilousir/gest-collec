@@ -28,8 +28,9 @@ class Chat extends BaseController
         $data = $this->request->getGet();
         return $this->response->setJSON(Model('InstantMessageModel')->getMessageHistory($data['id_receiver'], $data['id_sender']));
     }
+
     public function getajaxlastmessagehistory() {
         $data = $this->request->getGet();
-        return $this->response->setJSON(Model('InstantMessageModel')->getLastMessageHistory($data['id_receiver'], $data['id_sender'],$data['limit'], $data['offset'], $data['timestamp']));
+        return $this->response->setJSON(Model('InstantMessageModel')->getLastMessageHistory($data['id_receiver'], $data['id_sender'], $data['limit'], $data['offset'], $data['timestamp']));
     }
 }

@@ -8,8 +8,10 @@
                         <div class="col-md-3 col-6">
                             <div class="card h-100">
                                 <?php
+
                                 $img_src = !empty($user['avatar_url']) ? base_url($user['avatar_url']) : base_url('assets/img/avatars/3.jpg')?>
                                 <a href="<?= base_url('/collection/' . $user['username']) ?>">
+
                                     <img src="<?= $img_src ?>" class="card-img-top" alt="<?= $user['username']; ?>">
                                 </a>
                                 <div class="card-body">
