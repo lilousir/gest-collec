@@ -12,18 +12,14 @@ class Comment extends BaseController
     protected $requiredPermissions = ['collaborateur','utilisateur', 'administrateur'];
 
     public function getindex($id=null){
-        if ($id) {
-
-            return $this->view('/admin/comment-update', ['comment' => Model('CommentModel')->getCommentById($id)],true);
-        } else {
-            $comments = model("CommentModel")->getAllCommentsByUser();
-            return $this->view('/admin/comment-create', ['comments' => $comments],true);
-
+    if ($id){
+            $this->title = "Modifier un commentaire";
+            return $this->view('/admin/comment/comment', ['comment' => Model('CommentModel')->getCommentById($id)],true);
+            }
+    if($id == null){
+        return $this->view('/admin/comment/comment-index', ['comments' => Model('CommentModel')->getAllCommentsById()],true);
+    }
         }
-
-
-        }
-
 
     public function postupdate() {
         $data = $this->request->getPost();

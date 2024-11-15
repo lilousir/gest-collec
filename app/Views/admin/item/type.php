@@ -19,7 +19,7 @@
                     <input type="text" class="form-control" name="name">
                     <label class="form-label">Type parent</label>
                     <select class="form-select" name="id_type_parent">
-
+                        <option value="none" selected>Aucun</option>
                         <?php foreach ($all_types as $type) { ?>
                             <option value="<?= $type['id']; ?>">
                                 <?= $type['name']; ?>
@@ -68,35 +68,26 @@
                 <h5 class="modal-title">Modifier mon type</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="col">
-            <div class="card-body">
-                 <div class="row">
-            <label class="form-label">Nom du type :</label>
             <form method="POST" action="<?= base_url('/admin/item/updatetype'); ?>" id="formModal">
-
+                <div class="modal-body">
                     <input type="hidden" name="id" value="">
+                    <label class="form-label">Nom du type</label>
                     <input type="text" name="name" class="form-control">
-
                     <label class="form-label">Type parente</label>
                     <select class="form-select" name="id_type_parent">
-
+                        <option value="none" selected>Aucun</option>
                         <?php foreach ($all_types as $type) { ?>
                             <option value="<?= $type['id']; ?>">
                                 <?= $type['name']; ?>
                             </option>
                         <?php } ?>
                     </select>
-
+                </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
                     <input type="submit" class="btn btn-primary" value="Valider">
                 </div>
-
             </form>
-            </div>
-             </div>
-        </div>
-
         </div>
     </div>
 </div>

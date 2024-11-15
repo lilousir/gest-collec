@@ -38,7 +38,6 @@ class Item extends BaseController
                     $cm = model('CommentModel');
                     // L'objet existe, on le récupère en entier
                     $item = $im->getFullItemBySlug($slug);
-                    $comments_number = $cm->getTotalByIdAndActive($item['id']);
                     $all_comments = $cm->getAllCommentsByItem($item['id']);
                     // Vérification si l'utilisateur est connecté et s'il est admin
                     $isAdmin = isset($this->session->user) && $this->session->user->isAdmin();
@@ -57,7 +56,7 @@ class Item extends BaseController
                     $possede = false;
                     $all_comments = null;
                 }
-                return $this->view('item/item', ['item' => $item, 'possede' => $possede, 'comments' => $all_comments, 'comments_number' => $comments_number]);
+                return $this->view('item/item', ['item' => $item, 'possede' => $possede, 'comments' => $all_comments]);
             }
         }
 

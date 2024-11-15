@@ -47,7 +47,10 @@ class ItemTypeModel extends Model
     }
     public function updateType($id, $data) {
         if (isset($data['name'])) {
-            $data['slug'] = $this->generateUniqueSlug($data['name']);
+            $data['slug'] = $this->generateUniqueSlug($data['name'],$id);
+        }
+        if ($data['id_type_parent'] == 'none') {
+            $data['id_type_parent'] = null;
         }
         return $this->update($id, $data);
     }

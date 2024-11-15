@@ -55,14 +55,14 @@ class ItemLicenseModel extends Model
     public function getLicenseBySlug($slug) {
         return $this->where('slug',$slug)->first();
     }
-    public function insertLicense($item) {
-        if(isset($item['id_license_parent']) && empty($item['id_license_parent'])) {
-            unset($item['id_license_parent']);
+    public function insertLicense($data) {
+        if(isset($data['id_license_parent']) && empty($data['id_license_parent'])) {
+            unset($data['id_license_parent']);
         }
-        if (isset($item['name'])) {
-            $item['slug'] = $this->generateUniqueSlug($item['name']);
+        if (isset($data['name'])) {
+            $data['slug'] = $this->generateUniqueSlug($data['name']);
         }
-        return $this->insert($item);
+        return $this->insert($data);
     }
 
     private function generateUniqueSlug($name)
