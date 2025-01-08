@@ -109,8 +109,7 @@
                                                 <a href="<?= base_url("/collection/addcollection/" . $item['id']) ?>" class="btn
                                 btn-success"><i class="fa-solid
                                 fa-plus
-                                fa-lg"></i> Ajouter
-                                                    à ma collection</a>
+                                fa-lg"></i>Ajouter a ma collection </a>
                                             <?php else : ?>
                                                 <a href="<?= base_url("/collection/removecollection/" . $item['id']) ?>" class="btn
                                 btn-danger"><i class="fa-solid
@@ -118,6 +117,13 @@
                                 fa-lg"></i> Retirer
                                                     de ma collection</a>
                                             <?php endif; ?>
+                                            <form action="<?= base_url('/cart/addproduct');?>" method="POST">
+                                                <input name="quantity" value="1" type="hidden">
+                                                <input name="id" value="<?= $item['id']; ?>" type="hidden">
+                                                <input name="name" value="<?= $item['item_name'];?>" type="hidden">
+                                                <input name="price" value="<?= $item['price'];?>" type="hidden">
+                                                <button type="submit" class="btn btn-warning">ajouter au panier</button>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>

@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Libraries\ShoppingCart;
 use CodeIgniter\Controller;
 use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
@@ -219,6 +220,7 @@ abstract class BaseController extends Controller
                     'breadcrumb' => $this->breadcrumb,
                     'localmenu' => $this->menu,
                     'user' => ($this->session->user ?? null),
+                    'cart'=>($this->session->get('cart') ?? null),
                     'menus' => $this->menus($admin),
                     'title' => sprintf('%s : %s', $this->title, $this->title_prefix),
                     'version_info' => $versionInfo,
